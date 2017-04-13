@@ -7,23 +7,24 @@
 
 # NEED TO EDIT PRINT STATEMENTS TO REFLECT USER INPUTS ALSO HOW TO SET/UNSET IF USER ONLY DOES SOME????
 
-
+# N. Nicole Sanchez -- April 12 2017
+# Univ. of Wash.    -- Nbody Shop
 import matplotlib.pyplot as plt
+import numpy as np
 import pynbody
 import sys
-print 'Number of arguments:', len(sys.argv)
-quit()
 
 if len(sys.argv) == 1:
+    print('Syntax: python patient0_scalelength.py max_age min_age r_max z_max')
     age_max = 6.
     age_min = 1.
     r_max   = 11.
     z_max   = 2.
 else:
-    age_max = sys.argv[1]
-    age_min = sys.argv[2]
-    r_max   = sys.argv[3]
-    z_max   = sys.argv[4]
+    age_max = float(sys.argv[1])
+    age_min = float(sys.argv[2])
+    r_max   = float(sys.argv[3])
+    z_max   = float(sys.argv[4])
 
 file = pynbody.load('/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096')
 file.properties
@@ -38,18 +39,75 @@ pynbody.analysis.angmom.faceon(h1)
 R_d = ((h1.s['x'].in_units('kpc'))**2. + (h1.s['y'].in_units('kpc'))**2.)**(0.5)
 disk_stars_xymax = (R_d < r_max) & (R_d > -r_max)
 disk_stars_zmax  = (h1.s['z'].in_units('kpc') < z_max) & (h1.s['z'].in_units('kpc') > -z_max)
+print('H1 stars limited to within '+str(r_max)+' kpc radially and '+str(z_max)+' radially.')
 
 disk_stars = h1.s[disk_stars_xymax & disk_stars_zmax]
-print('Number of total stars within radius 10 kpc (z < 2kpc) in main halo',len(disk_stars))
+print('Number of total stars: ',len(disk_stars))
 
 young_stars1 = disk_stars['age'].in_units('Gyr') < age_max
 young_stars2 = disk_stars['age'].in_units('Gyr') > age_min
 
 young_disk_stars = disk_stars[young_stars1 & young_stars2]
-print('Number of total stars with ages 1-6 Gyr in main halo disk',len(young_disk_stars))
+print('Sample of total stars with ages '+str(age_min)+'-'+str(age_max)+' Gyr: ',len(young_disk_stars))
 
 yds_hl_r = pynbody.analysis.luminosity.half_light_r(young_disk_stars, band='v')
-print('Half-light radius of H1',yds_hl_r)
+print('Half-light radius of H1 for '+str(age_min)+'-'+str(age_max)+' Gyr old stars',yds_hl_r/file.s['r'].units)
 
 yds_scale_l = yds_hl_r / 1.678
-print('Disk scale length of H1 for 1-6 Gyr old stars',yds_scale_l)
+print('Disk scale length of H1 for '+str(age_min)+'-'+str(age_max)+' Gyr old stars',yds_scale_l/file.s['r'].units)
+
+
+# Plotting
+pynbody.plot.profile.density_profile(young_disk_stars, linestyle=False, center=True)
+plt.title('Stars within Disk (Ages '+str(age_min)+'-'+str(age_max)+' Gyr) of H1')
+plt.xscale('linear')
+plt.savefig('h1_diskstars_xy10kpc_z2kpc_densityprofile.pdf')
+plt.show()
+plt.clf()
+
+pynbody.analysis.angmom.sideon(h1)
+pynbody.plot.image(young_disk_stars,width='25 kpc', av_z=True, cmap='Blues')
+plt.title('Stars within Disk (Ages '+str(age_min)+'-'+str(age_max)+' Gyr) of H1')
+plt.savefig('h1_diskstars_xy10kpc_z2kpc_sideon.pdf')
+plt.show()
+plt.clf()
+
+pynbody.analysis.angmom.faceon(h1)
+pynbody.plot.image(young_disk_stars,width='25 kpc', av_z=True, cmap='Blues')
+plt.title('Stars within Disk (Ages '+str(age_min)+'-'+str(age_max)+' Gyr) of H1')
+plt.savefig('h1_diskstars_xy10kpc_z2kpc_faceon.pdf')
+plt.show()
+plt.clf()
+
+# Create a profile object for the stars (by default this is a 2D profile)
+p = pynbody.analysis.profile.Profile(young_disk_stars,min=.01,max=50)
+plt.title('Stars within Disk (Ages '+str(age_min)+'-'+str(age_max)+' Gyr) of H1')
+plt.plot(p['rbins'],p['density'], 'k')
+plt.semilogy()
+plt.xlabel('R [kpc]')
+print(p['density'].units)
+plt.ylabel(str(p['density'].units))
+#plt.ylim(0,20)
+plt.savefig('h1_diskstars_xy10kpc_z2kpc_densvsR.pdf')
+plt.show()
+plt.clf()
+
+plt.plot(p['rbins'],np.log10(p['mass']), 'k')
+plt.title('Stars within Disk (Ages '+str(age_min)+'-'+str(age_max)+' Gyr) of H1')
+plt.xlabel('R [kpc]')
+plt.ylabel(r'$M_{\star}$ [M$_{\odot}$]')
+plt.savefig('h1_diskstars_xy15kpc_z4kpc_massvsR.pdf')
+plt.show()
+plt.clf()
+
+fit_inds = np.where(p['rbins'] < 0.2*p['rbins'].max())
+alphfit = np.polyfit(np.log10(p['rbins'][fit_inds]),np.log10(p['mass'][fit_inds]), 1)
+fit = np.poly1d(alphfit)
+print(alphfit)
+plt.plot(np.log10(p['rbins']),np.log10(p['mass']), 'k')
+plt.plot(p['rbins'][fit_inds], fit(np.log10(p['rbins'][fit_inds])),color='k',linestyle='dashed')
+plt.savefig('h1_diskstars_xy15kpc_z4kpc_age1_6gyr_massvsRplusfit.pdf')
+plt.xlabel('R [kpc]')
+plt.ylabel(r'$M_{\star}$ [M$_{\odot}$]')
+plt.show()
+plt.clf()
