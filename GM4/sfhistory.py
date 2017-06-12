@@ -4,8 +4,8 @@ import numpy as np
 import pynbody
 
 timesteps = np.loadtxt('timesteps.txt',dtype='str')
-plt.plot([0,0.],[0,0.01],color='SteelBlue',label='GM1')
-plt.plot([0,0],[0,0.01],color='LightSalmon',label='GM4')
+plt.plot([0,0.],[0,0.01],color='FireBrick',label='GM1')
+plt.plot([0,0],[0,0.01],color='SteelBlue',label='GM4')
 
 #for j in range(1):#len(timesteps)):
 i = 21
@@ -30,13 +30,13 @@ h1_2 = h_2[1]
 pynbody.analysis.angmom.faceon(h1_2)
 file.physical_units()
     #pynbody.plot.stars.sfh(h1,filename='GM1_MH_sfh_'+timesteps[i]+'.pdf',massform=False)
-    
+
 plt.ylim(0,12)
 #    plt.xlim(0,14)
-sfhist2, bins2 = pynbody.plot.stars.sfh(file2,filename='GM1_4_sfh_xlim'+timesteps[i]+'.pdf',massform=True,legend=True,color='LightSalmon',trange=[0,14])
-
-plt.legend(loc=2)
+sfhist2, bins2 = pynbody.plot.stars.sfh(file2,filename='GM1_4_sfh_xlim'+timesteps[i]+'.pdf',massform=True,legend=True,color='FireBrick',trange=[0,14])
 #plt.xlim(0,15)
+plt.legend(loc=2)
+plt.savefig('GM1_4_sfh_'+timesteps[i]+'.pdf')
 plt.show()
 print(timesteps[i])
 
