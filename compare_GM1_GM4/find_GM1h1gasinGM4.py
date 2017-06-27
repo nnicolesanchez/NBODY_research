@@ -32,6 +32,8 @@ GM1_sim.physical_units()
 
 # np.in1d is one of the most useful things I have ever learned
 # matched items in different arrays
+GM1h1z0iords = np.random.choice(GM1h1z0iords,size=200000)
+
 GM4_GM1h1z0_gasmask  = np.in1d(GM4_sim.g['iord'],GM1h1z0iords,assume_unique=False)
 GM4_GM1h1z0_starmask = np.in1d(GM4_sim.s['igasorder'],GM1h1z0iords,assume_unique=False) 
 print(len(GM4_sim.g['iord'][GM4_GM1h1z0_gasmask]))
@@ -39,6 +41,9 @@ print(len(GM4_sim.g['iord'][GM4_GM1h1z0_gasmask]))
 GM1h1z0_gasmask  = np.in1d(GM1_sim.g['iord'],GM1h1z0iords,assume_unique=False)
 GM1h1z0_starmask = np.in1d(GM1_sim.s['igasorder'],GM1h1z0iords,assume_unique=False)
 print(len(GM1_sim.g['iord'][GM1h1z0_gasmask]))
+
+#test = np.random.choice(GM4_sim.g['pos'],size=10000)
+#test2 = np.random.choice(GM1_sim.g['pos'],size=10000)
 
 GM4_gaspos = np.array(GM4_sim.g['pos'][GM4_GM1h1z0_gasmask])
 GM4_gasR = (GM4_gaspos[:,0]**2 + GM4_gaspos[:,1]**2 + GM4_gaspos[:,2]**2)**0.5
@@ -54,12 +59,20 @@ matchgas_mask1 = np.in1d(GM1_sim.g['iord'][GM1h1z0_gasmask],GM4_sim.g['iord'][GM
 new_GM1_gaspos = np.array(GM1_gaspos[matchgas_mask1])
 new_GM1_gasR = (new_GM1_gaspos[:,0]**2 + new_GM1_gaspos[:,1]**2 + new_GM1_gaspos[:,2]**2)**0.5
 
-print(len(new_GM4_gaspos))
-print(len(new_GM1_gaspos))
+#plt.plot(new_GM4_gasR,new_GM1_gasR,marker='o',linestyle='None',markersize=1)
+#plt.xlabel('GM4 Gas Distance from Center [kpc]')
+#plt.ylabel('GM1 Gas Distance from Center [kpc]')
+#plt.savefig('compareR_GM1_GM4.pdf')
+#plt.show()
 
-plt.plot(new_GM4_gasR,new_GM1_gasR,marker='o',markersize=2)
-plt.xlabel('GM4 Gas Distance from Center [kpc]')
-plt.ylabel('GM1 Gas Distance from Center [kpc]')
-plt.savefig('compareR_GM1_GM4.pdf')
+plt.plot(new_GM4_gaspos[:,0],new_GM4_gaspos[:,1],linestyle='None',markersize=1,marker='o')
+plt.xlabel('GM4 x [kpc]')
+plt.ylabel('GM4 y [kpc]')
+plt.savefig('GM4_xy.pdf')
 plt.show()
 
+plt.plot(new_GM1_gaspos[:,0],new_GM1_gaspos[:,1],linestyle='None',markersize=1,marker='o')
+plt.xlabel('GM1 x [kpc]')
+plt.ylabel('GM1 y [kpc]')
+plt.savefig('GM1_xy.pdf')
+plt.show()

@@ -35,10 +35,18 @@ print('Number of gas parents for stars in H1 at z = 0: ',len(h1.s['igasorder']))
 h1gas = h1.g['iord']
 h1stargas = h1.s['igasorder']
 
-h1allgas_history = np.concatenate((h1gas,h1stargas),axis=0)
+h1tracedgas = np.unique(h1gas)
+h1tracedgas = [int(i) for i in h1tracedgas]  
+np.savetxt('GM1_h1_tracedgasiord.txt',h1tracedgas,fmt='%07d')
+
+h1tracedstar = np.unique(h1stargas)
+h1tracedstar = [int(i) for i in h1tracedstar]   
+np.savetxt('GM1_h1_tracedigasorder.txt',h1tracedstar,fmt='%07d')
+
+#h1allgas_history = np.concatenate((h1gas,h1stargas),axis=0)
 print('Total number of gas particles referenced by gas iord and star parents: ',len(h1allgas_history))
 print('Total number of unique gas particles + star parents in H1: ',len(np.unique(h1allgas_history)))
 
-h1tracedgas = np.unique(h1allgas_history)
-h1tracedgas = [int(i) for i in h1tracedgas]
-np.savetxt('GM1_h1_tracedgasiord.txt',h1tracedgas,fmt='%07d')
+#h1tracedgas = np.unique(h1allgas_history)
+#h1tracedgas = [int(i) for i in h1tracedgas]
+#np.savetxt('GM1_h1_tracedgasiord.txt',h1tracedgas,fmt='%07d')
