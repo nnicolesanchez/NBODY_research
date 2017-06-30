@@ -45,18 +45,17 @@ print(GM4_sim.g['mass'].units,GM4_sim.g['pos'].units,GM4_sim.g['vel'].units,GM4_
 import csv
 with open('GM4_ulysses_data.csv', 'w') as csvfile:
     fieldnames = ['iords', 'mass', 'x', 'y', 'z', 'vx', 'vy', 'vz', 'rho', 'temp', 'metals']
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=' ')
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',')
 
 
 
     writer.writeheader()
-    writer.writerow({'iords': str(np.max(gas_iord)), 'mass': str(np.max(gas_mass)), 'x': str(np.max(gas_pos)), 'y': str(np.max(gas_pos)), 'z': str(np.max(gas_pos)), 'vx': str(np.max(gas_v)), 'vy': str(np.max(gas_v)), 'vz': str(np.max(gas_v)), 'rho': str(np.max(gas_rho)), 'temp': str(np.max(gas_T)), 'metals': str(np.max(gas_met))})
-    writer.writerow({'iords': str(np.min(gas_iord)), 'mass': str(np.min(gas_mass)), 'x': str(np.min(gas_pos)), 'y': str(np.min(gas_pos)), 'z': str(np.min(gas_pos)), 'vx': str(np.min(gas_v)), 'vy': str(np.min(gas_v)), 'vz': str(np.min(gas_v)), 'rho': str(np.min(gas_rho)), 'temp': str(np.min(gas_T)), 'metals': str(np.min(gas_met))})
+    writer.writerow({'iords': str("%.3f" % np.max(gas_iord)), 'mass': str("%.3f" % np.max(gas_mass)), 'x': str("%.3f" % np.max(gas_pos)), 'y': str("%.3f" % np.max(gas_pos)), 'z': str("%.3f" % np.max(gas_pos)), 'vx': str("%.3f" % np.max(gas_v)), 'vy': str("%.3f" % np.max(gas_v)), 'vz': str("%.3f" % np.max(gas_v)), 'rho': str("%.3f" % np.max(gas_rho)), 'temp': str("%.3f" % np.max(gas_T)), 'metals': str("%.3f" % np.max(gas_met))})
+    writer.writerow({'iords': str("%.3f" % np.min(gas_iord)), 'mass': str("%.3f" % np.min(gas_mass)), 'x': str("%.3f" % np.min(gas_pos)), 'y': str("%.3f" % np.min(gas_pos)), 'z': str("%.3f" % np.min(gas_pos)), 'vx': str("%.3f" % np.min(gas_v)), 'vy': str("%.3f" % np.min(gas_v)), 'vz': str("%.3f" % np.min(gas_v)), 'rho': str("%.3f" % np.min(gas_rho)), 'temp': str("%.3f" % np.min(gas_T)), 'metals': str("%.3f" % np.min(gas_met))})
 
     for i in range(len(gas_iord)):
         #print(str(gas_iord[i]), str(gas_mass[i]), str(gas_pos[i,0]))
-        writer.writerow({'iords': str(gas_iord[i]), 'mass': str(gas_mass[i]), 'x': str(gas_pos[i,0]), 'y': str(gas_pos[i,1]), 'z': str(gas_pos[i,2]), 'vx': str(gas_v[i,0]), 'vy': str(gas_v[i,1]), 'vz': str(gas_v[i,2]), 'rho': str(gas_rho[i]), 'temp': str(gas_T[i]), 'metals': str(gas_met[i])})
+        writer.writerow({'iords': str("%.3f" % gas_iord[i]), 'mass': str("%.3f" % gas_mass[i]), 'x': str("%.3f" % gas_pos[i,0]), 'y': str("%.3f" % gas_pos[i,1]), 'z': str("%.3f" % gas_pos[i,2]), 'vx': str("%.3f" % gas_v[i,0]), 'vy': str("%.3f" % gas_v[i,1]), 'vz': str("%.3f" % gas_v[i,2]), 'rho': str("%.3f" % gas_rho[i]), 'temp': str("%.3f" % gas_T[i]), 'metals': str("%.3f" % gas_met[i])})
 
 
-
-    
+np.savetxt('ulysses_gasiords.txt',gas_iord)    
