@@ -43,7 +43,7 @@ h1tracedstar = np.unique(h1stargas)
 h1tracedstar = [int(i) for i in h1tracedstar]   
 np.savetxt('GM1_h1_tracedigasorder.txt',h1tracedstar,fmt='%07d')
 
-#h1allgas_history = np.concatenate((h1gas,h1stargas),axis=0)
+h1allgas_history = np.concatenate((h1gas,h1stargas),axis=0)
 print('Total number of gas particles referenced by gas iord and star parents: ',len(h1allgas_history))
 print('Total number of unique gas particles + star parents in H1: ',len(np.unique(h1allgas_history)))
 
