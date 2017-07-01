@@ -1,4 +1,14 @@
-# This script makes some plots
+# This script reads in the data created by find_GM1h1gasinGM4.py
+# which prints out the matched gas particles between GM1 & GM4
+# and creates:
+#         - X vs Y plots for GM4 and GM1
+#         ** Colors corresponding to tempertaure
+#         ** Second plots is a attempted contour plot
+#               Fix later because still looks messy
+
+
+# N. Nicole Sanchez -- June 23 2017
+# Univ. of Wash.    -- Nbody Shop
 from scipy.interpolate import griddata
 import scipy.interpolate
 import matplotlib.pyplot as plt
@@ -74,7 +84,6 @@ cbar = plt.colorbar()
 cbar.ax.set_ylabel('Temperature [log(K)]')
 plt.savefig('GM1_xy_T.pdf')
 plt.show()
-
 
 
 x = new_GM1_gaspos[:,0]

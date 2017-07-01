@@ -2,8 +2,12 @@
 # and parent gas particles of the stars in the GM1 main halo at z = 0, and determines
 # where those gas particles are compared to the GM4 whole simulation
 
-# Makes pynbody plots of where the GM1 particles are in the GM4 sim
+# follow this script with: makeGM1h1gasinGM4plot_temp.py: 
+#           Makes pynbody plots of where the GM1 particles are in the GM4 sim & v.v.
 
+
+# N. Nicole Sanchez -- June 23 2017
+# Univ. of Wash.    -- Nbody Shop  
 import matplotlib.pyplot as plt
 import numpy as np
 import pynbody
