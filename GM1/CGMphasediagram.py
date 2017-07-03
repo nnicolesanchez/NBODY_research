@@ -50,9 +50,10 @@ disk_gas_zmax  = (h1.g['z'].in_units('kpc') < z_max) & (h1.g['z'].in_units('kpc'
 disk_gas_mask = disk_gas_xymax & disk_gas_zmax
 disk_gas = h1.g[disk_gas_xymax & disk_gas_zmax]
 CGM_gas  = h1.g[~disk_gas_mask]
+mini_CGM_gas = np.random.choice(CGM_gas['iord'],size=10000)
+mini_CGM_gas_mask = np.in1d(CGM_gas['iord'],mini_CGM_gas)
 
-
-plt.scatter(np.log10(CGM_gas['rho']),np.log10(CGM_gas['temp']),c=np.log10(CGM_gas['metals']),cmap=plt.get_cmap('jet'), alpha=0.5,s=np.log10(CGM_gas['mass']))
+plt.scatter(np.log10(CGM_gas['rho'][mini_CGM_gas_mask]),np.log10(CGM_gas['temp'][mini_CGM_gas_mask]),c=np.log10(CGM_gas['metals'][mini_CGM_gas_mask]),cmap=plt.get_cmap('jet'), alpha=0.5,s=np.log10(CGM_gas['mass'][mini_CGM_gas_mask]))
 plt.ylabel(r'log$_{10}$(T ('+str(CGM_gas['temp'].units)+'))')
 plt.xlabel(r'log$_{10}$($\rho$ (M$_{\odot}$ kpc$^{-3}$))')
 plt.colorbar(label=(r'log$_{10}$(metal fraction)'))
