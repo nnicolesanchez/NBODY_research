@@ -26,9 +26,9 @@ else:
     elif (str(sys.argv[1]) == 'GM1'):
         sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096')
     elif (str(sys.argv[1]) == 'GM4'):
-        print('GM4 is missing the amiga.stat file. Sorry, friend, no plots.')
-        quit()
-        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096')    
+        #print('GM4 is missing the amiga.stat file. Sorry, friend, no plots.')
+        #quit()
+        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/OLD/pioneer50h243GM4.1536gst1bwK1BH.004096')
 
     else :
         print('Not a valid option. Current options: P0, GM1, GM4')
@@ -37,7 +37,10 @@ else:
 
     name = str(sys.argv[1])
     print(name+' simulation at z = ','%.2f' % sim.properties['z'] )
-    R_vir = np.loadtxt('../'+name+'/'+name+'_mainhalo.stat',dtype=float,skiprows=1,usecols=6,unpack=True)
+    if (name == 'GM4'):
+        R_vir = 270
+    else:
+        R_vir = np.loadtxt('../'+name+'/'+name+'_mainhalo.stat',dtype=float,skiprows=1,usecols=6,unpack=True)
     print('Virial radius:',float(R_vir))
     R_vir = float(R_vir)
 
