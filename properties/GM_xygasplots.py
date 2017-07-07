@@ -47,32 +47,49 @@ pynbody.analysis.halo.center(h1,mode='ssc')
 pynbody.analysis.angmom.faceon(h1)
 sim.physical_units()
 
+m_h = 1.6733 * 10**-24 # g
+sim.g['rho_in_nhcm'] = sim.g['rho'].in_units('g cm**-3') / m_h
+
+
 # Plotting face on
-pynbody.plot.sph.image(sim.g, width=2*R_vir, cmap='jet', units="g cm**-2", show_cbar=False)
+pynbody.plot.sph.image(sim.g, qty='rho_in_nhcm' , width=2*R_vir, cmap='jet', show_cbar=False)
 fig = plt.gcf()
 ax = fig.gca()
+
 
 circle2 = plt.Circle((0.0, 0.0), R_vir, color='white',fill=False,linestyle='--')
 ax.add_artist(circle2)
 cbar = plt.colorbar()
-cbar.set_label(r'g cm$^{-2}$')
+cbar.set_label(r'n$_H$ [cm$^{-3}$]')
 plt.text(-245,220,name, color='White')
 plt.text(185,-240,'z = 0',color='White')
-plt.savefig(name+'_faceon_gas.pdf')
+plt.savefig(name+'_gasdensity.pdf')
 plt.show()
 
-# Plotting side on
-pynbody.analysis.angmom.sideon(h1)
-
-pynbody.plot.sph.image(sim.g, width=2*R_vir, cmap='jet', units="g cm**-2", show_cbar=False)
+# Plotting temperature map
+pynbody.plot.sph.image(sim.g, qty='temp', width=2*R_vir, cmap='jet', show_cbar=False)
 fig = plt.gcf()
 ax = fig.gca()
 
-circle2 = plt.Circle((0.0, 0.0), R_vir, color='white',fill=False,linestyle='--')
+circle2 = plt.Circle((0.0, 0.0), R_vir, color='Black',fill=False,linestyle='--')
 ax.add_artist(circle2)
 cbar = plt.colorbar()
-cbar.set_label(r'g cm$^{-2}$')
-plt.text(-245,220,name, color='White')
-plt.text(185,-240,'z = 0',color='White')
-plt.savefig(name+'_edgeon_gas.pdf')
+cbar.set_label(r'T [K]')
+plt.text(-245,220,name, color='Black')
+plt.text(185,-240,'z = 0',color='Black')
+plt.savefig(name+'_gastemp.pdf')
+plt.show()
+
+# Plotting metal mass fraction
+pynbody.plot.sph.image(sim.g, qty='metals', width=2*R_vir, cmap='jet', show_cbar=False)
+fig = plt.gcf()
+ax = fig.gca()
+
+circle2 = plt.Circle((0.0, 0.0), R_vir, color='Black',fill=False,linestyle='--')
+ax.add_artist(circle2)
+cbar = plt.colorbar()
+cbar.set_label(r'metal mass fraction')
+plt.text(-245,220,name, color='Black')
+plt.text(185,-240,'z = 0',color='Black')
+plt.savefig(name+'_gasmetalfrac.pdf')
 plt.show()

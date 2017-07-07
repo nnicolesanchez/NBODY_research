@@ -51,7 +51,7 @@ h1 = h[1]
 pynbody.analysis.angmom.faceon(h1)
 
 # Constants
-m_H = 1.6726231 * 10**-24 #g
+m_H = 1.6733 * 10**-24 #g
 
 # Want to isolate CGM  
 # Isolate and remove disk stars within radius 0-10 kpc & vertically 4 kpc 
