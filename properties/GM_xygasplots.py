@@ -26,8 +26,6 @@ else:
     elif (str(sys.argv[1]) == 'GM1'):
         sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096')
     elif (str(sys.argv[1]) == 'GM4'):
-        #print('GM4 is missing the amiga.stat file. Sorry, friend, no plots.')
-        #quit()
         sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/OLD/pioneer50h243GM4.1536gst1bwK1BH.004096')
 
     else :
@@ -37,10 +35,7 @@ else:
 
     name = str(sys.argv[1])
     print(name+' simulation at z = ','%.2f' % sim.properties['z'] )
-    if (name == 'GM4'):
-        R_vir = 270
-    else:
-        R_vir = np.loadtxt('../'+name+'/'+name+'_mainhalo.stat',dtype=float,skiprows=1,usecols=6,unpack=True)
+    R_vir = np.loadtxt('../'+name+'/'+name+'_mainhalo.stat',dtype=float,skiprows=1,usecols=6,unpack=True)
     print('Virial radius:',float(R_vir))
     R_vir = float(R_vir)
 
@@ -55,7 +50,7 @@ sim.g['rho_in_nhcm'] = sim.g['rho'].in_units('g cm**-3') / m_h
 
 
 # Plotting face on
-pynbody.plot.sph.image(sim.g, qty='rho_in_nhcm' , width=2*R_vir, cmap='jet', show_cbar=False)
+pynbody.plot.sph.image(sim.g, qty='rho_in_nhcm' , width=2*R_vir, cmap='jet', show_cbar=False, vmin=10**-6, vmax=10**1)
 fig = plt.gcf()
 ax = fig.gca()
 
@@ -70,7 +65,7 @@ plt.savefig(name+'_gasdensity.pdf')
 plt.show()
 
 # Plotting temperature map
-pynbody.plot.sph.image(sim.g, qty='temp', width=2*R_vir, cmap='jet', show_cbar=False)
+pynbody.plot.sph.image(sim.g, qty='temp', width=2*R_vir, cmap='jet', show_cbar=False,vmin=10**3, vmax=10**7)
 fig = plt.gcf()
 ax = fig.gca()
 
@@ -84,7 +79,7 @@ plt.savefig(name+'_gastemp.pdf')
 plt.show()
 
 # Plotting metal mass fraction
-pynbody.plot.sph.image(sim.g, qty='metals', width=2*R_vir, cmap='jet', show_cbar=False)
+pynbody.plot.sph.image(sim.g, qty='metals', width=2*R_vir, cmap='jet', show_cbar=False,vmin=10**-6, vmax=5*10**-1)
 fig = plt.gcf()
 ax = fig.gca()
 
