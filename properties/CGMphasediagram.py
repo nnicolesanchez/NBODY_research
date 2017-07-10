@@ -30,9 +30,9 @@ else:
     elif (str(sys.argv[1]) == 'GM1'):
         sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096')
     elif (str(sys.argv[1]) == 'GM4'):
-        print('GM4 is missing the amiga.stat file. Sorry, friend, no plots.')
-        quit()
-        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096')    
+#        print('GM4 is missing the amiga.stat file. Sorry, friend, no plots.')
+#        quit()
+        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/OLD/pioneer50h243GM4.1536gst1bwK1BH.004096')    
 
     else :
         print('Not a valid option. Current options: P0, GM1, GM4')
@@ -68,12 +68,14 @@ CGM_gas  = h1.g[~disk_gas_mask]
 
 x = np.log10(CGM_gas['rho'].in_units('g cm**-3')/m_H)
 y = np.log10(CGM_gas['temp'])
+z = np.log10(CGM_gas['mass'])
+#print(CGM_gas['mass'].units)
 
 fig = plt.figure(figsize=(7, 5))
-plt.hist2d(x,y,(50,50),cmap=cm.jet,norm=mpl.colors.LogNorm())
+plt.hist2d(x,y,(100,100),weights=z,cmap=cm.jet,norm=mpl.colors.LogNorm())
 plt.ylabel(r'Log$_{10}$ T ('+str(CGM_gas['temp'].units)+')')
 plt.xlabel(r'Log$_{10}$ n$_H$ (cm$^{-3}$)')
-plt.colorbar(label=(r'N$_{particles}$'))
+plt.colorbar(label=(r'Log M (M$_{\odot}$)'))
 plt.text(-5.5,6.7,name, color='midnightblue',size=12)
 plt.text(0.7,6.7,'z = 0',color='midnightblue',size=12)
 plt.xlim(-6,2)
