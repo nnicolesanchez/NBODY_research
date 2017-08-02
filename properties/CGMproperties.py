@@ -1,5 +1,5 @@
 # This script pulls out the following properties for the 
-# ChaNGa galaxies: Patient 0, GM1, GM4
+# ChaNGa galaxies: Patient 0, GM1, GM4, GM5, GM6
 #        - Stellar mass of galaxy
 #        - Gas mass of galaxy
 #        * Split into CGM vs Disk?
@@ -14,15 +14,8 @@ import numpy as np
 import pynbody
 import sys
 
-#if len(sys.argv) == 1:
-#    print('Syntax: python patient0_scalelength.py max_age min_age r_max z_max')
-#    age_max = 6.
-#else:
-#    age_max = float(sys.argv[1])
-
-
-sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','GM4']
-labels = ['P0','GM1','GM4']
+sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096']
+labels = ['P0','GM1','GM4','GM5','GM6']
 
 import csv
 with open('gxy_properties.csv', 'w') as csvfile:
@@ -31,7 +24,7 @@ with open('gxy_properties.csv', 'w') as csvfile:
 
     writer.writeheader()
 
-    for i in range(len(sims[0:2])):
+    for i in range(len(sims)):
         print(labels[i])
         sim = pynbody.load(sims[i],verbose=True)
         sim.properties
