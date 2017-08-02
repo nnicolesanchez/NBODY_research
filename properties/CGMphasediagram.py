@@ -21,7 +21,7 @@ plt.rc('lines', lw=2)
 plt.rc('axes', lw=1, labelsize=12)
 
 if len(sys.argv) == 1:
-    print('No galaxy selected. Current options: P0, GM1, GM4')
+    print('No galaxy selected. Current options: P0, GM1, GM4, GM5, GM6')
     print('Syntax: "GM_xygasplots.py GM1"')
     quit()
 else:
@@ -30,9 +30,11 @@ else:
     elif (str(sys.argv[1]) == 'GM1'):
         sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096')
     elif (str(sys.argv[1]) == 'GM4'):
-#        print('GM4 is missing the amiga.stat file. Sorry, friend, no plots.')
-#        quit()
-        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/OLD/pioneer50h243GM4.1536gst1bwK1BH.004096')    
+        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096')    
+    elif (str(sys.argv[1]) == 'GM5'):
+        sim = pynbody.load('/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096')
+    elif (str(sys.argv[1]) == 'GM6'):
+        sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096')
 
     else :
         print('Not a valid option. Current options: P0, GM1, GM4')
