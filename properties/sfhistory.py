@@ -4,29 +4,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pynbody
 
-plt.plot([0,0.],[0,0.01],color='SteelBlue',label='GM1')
-plt.plot([0,0],[0,0.01],color='FireBrick',label='GM4')
+#plt.plot([0,0.],[0,0.01],color='SteelBlue',label='GM1')
+#plt.plot([0,0],[0,0.01],color='FireBrick',label='GM4')
 
 sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096']
 labels = ['P0','GM1','GM4','GM5','GM6']
 colors = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon']
 
-for i in range(len(sims[0:2])):
-    h = sims[i].halos()
+for i in range(len(sims)):
+    print(labels[i])
+    sim = pynbody.load(sims[i])
+    h = sim.halos()
     h1 = h[1]
     pynbody.analysis.halo.center(h1,mode='ssc')
 
 
     pynbody.analysis.angmom.faceon(h1)
-    sims.physical_units()
+    sim.physical_units()
 
-    sfhist, bins = pynbody.plot.stars.sfh(sims[i],filename=labels[i]+'sfh_xlim.pdf',massform=True,color=colors[i],legend=True,trange=[0,14])
+    sfhist, bins = pynbody.plot.stars.sfh(sim,filename=labels[i]+'sfh_xlim.pdf',massform=True,color=colors[i],legend=True,trange=[0,14],label=labels[i])
     #pynbody.plot.stars.sfh(h1,filename='GM4_MH_sfh_'+timesteps[i]+'.pdf',massform=False)
 
     np.savetxt(labels[i]+'_sfhistory_bins.txt', np.transpose([sfhist, bins[:-1]]))
 
 plt.ylim(0,12)
 plt.legend(loc=2)
-plt.savefig('P0-'+labels[i]+'_sfh.pdf')
+#plt.savefig('P0-'+labels[i]+'_sfh.pdf')
 plt.show()
 
