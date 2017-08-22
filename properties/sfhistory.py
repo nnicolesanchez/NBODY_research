@@ -7,9 +7,9 @@ import pynbody
 #plt.plot([0,0.],[0,0.01],color='SteelBlue',label='GM1')
 #plt.plot([0,0],[0,0.01],color='FireBrick',label='GM4')
 
-sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096']
-labels = ['P0','GM1','GM4','GM5','GM6']
-colors = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon']
+sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096']
+labels = ['P0','GM1','GM4','GM5','GM6','GM7']
+colors = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
 
 for i in range(len(sims)):
     print(labels[i])
@@ -29,6 +29,6 @@ for i in range(len(sims)):
 
 plt.ylim(0,12)
 plt.legend(loc=2)
-#plt.savefig('P0-'+labels[i]+'_sfh.pdf')
+plt.savefig('P0-GM7_sfh.pdf')
 plt.show()
 

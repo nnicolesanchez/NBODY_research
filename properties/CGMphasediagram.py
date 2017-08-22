@@ -35,6 +35,8 @@ else:
         sim = pynbody.load('/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096')
     elif (str(sys.argv[1]) == 'GM6'):
         sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096')
+    elif (str(sys.argv[1]) == 'GM7'):
+        sim = pynbody.load('/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096') 
 
     else :
         print('Not a valid option. Current options: P0, GM1, GM4')
