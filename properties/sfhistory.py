@@ -27,6 +27,13 @@ for i in range(len(sims)):
 
     np.savetxt(labels[i]+'_sfhistory_bins.txt', np.transpose([sfhist, bins[:-1]]))
 
+#plt.text(10,11,'P0',color=colors[0])
+#plt.text(8,7.5,'GM1',color=colors[1])
+#plt.text(4,1,'GM4',color=colors[2])
+#plt.text(3.5,6,'GM5',color=colors[3])
+#plt.text(2,4,'GM6',color=colors[4])
+#plt.text(1,3,'GM7',color=colors[5])
+
 plt.ylim(0,12)
 plt.legend(loc=2)
 plt.savefig('P0-GM7_sfh.pdf')
