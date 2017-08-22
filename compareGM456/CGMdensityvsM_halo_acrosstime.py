@@ -44,7 +44,7 @@ redshift = []
 time = []
 coolCGM_mass = []
 MH_mass = []
-j=1
+j=0
 for i in range(len(timesteps)):#len(sims)):
     print(sims[j])
     sim = pynbody.load(sims[j]+timesteps[i])
@@ -103,5 +103,5 @@ plt.plot(coolCGM_mass,MH_mass,label=names[j],marker='*')
 plt.xlabel(r'Total CGM Mass [M$_{sol}$] between 10$^4$-10$^5$ K')
 plt.ylabel('Main Halo Mass [M$_{sol}$]')
 plt.legend()
-plt.savefig('ALL_H1massvsCGMcoolgasmass_acrosstime.pdf')
+plt.savefig('GM4_H1massvsCGMcoolgasmass_acrosstime.pdf')
 plt.show()
