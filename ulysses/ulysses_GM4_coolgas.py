@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pynbody
 
-N = 20000
+N = 2000
 
 sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096')
 
@@ -38,16 +38,23 @@ print('Number of cool gas particles:',len(cool_gas))
 
 pynbody.plot.sph.image(cool_gas,qty="rho",units="g cm^-3",width=100,cmap="Greys")
 plt.savefig('GM1_coolgas_rho_faceon.pdf')
-#plt.show()
+plt.show()
 
-gas_iord = np.array(cool_gas['iord'])
-gas_mass = np.array(cool_gas['mass'])
-gas_pos  = np.array(cool_gas['pos'])*sim.properties['a']
-gas_v    = np.array(cool_gas['vel'])*sim.properties['a']
-gas_rho  = np.array(cool_gas['rho'])
-gas_T    = np.array(cool_gas['temp'])
-gas_met  = np.array(cool_gas['metals'])
+iord_mask = np.random.choice(cool_gas['iord'],size=N,replace=False)
+mask = np.in1d(cool_gas['iord'],iord_mask,assume_unique=False)
+print(len(cool_gas['iord'][mask]))
 
+gas_iord = np.array(cool_gas['iord'][mask])
+print('Number of cool gas particles:',len(cool_gas['iord'][mask]))
+gas_mass = np.array(cool_gas['mass'][mask])
+gas_pos  = np.array(cool_gas['pos'][mask])*sim.properties['a']
+gas_v    = np.array(cool_gas['vel'][mask])*sim.properties['a']
+gas_rho  = np.array(cool_gas['rho'][mask])
+gas_T    = np.array(cool_gas['temp'][mask])
+gas_met  = np.array(cool_gas['metals'][mask])
+
+pynbody.plot.sph.image(cool_gas[mask],qty="rho",units="g cm^-3",width=100,cmap="Greys")
+plt.show()
 
 
 import csv
