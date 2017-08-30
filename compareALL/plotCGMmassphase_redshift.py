@@ -69,8 +69,8 @@ for i in range(1):#len(names)):
     ax1.set_ylabel('log(CGM Mass by Phase)')
     ax1.set_xlabel('Time [Gyr]')
 
-    new_tick_locations = [CGM_time_Gyr[3],CGM_time_Gyr[9],CGM_time_Gyr[12],CGM_time_Gyr[15],CGM_time_Gyr[21]]
-    new_tick_labels = ["%.0f" % CGM_redshift[3],"%.0f" % CGM_redshift[9],"%.0f" % CGM_redshift[12],"%.1f" % CGM_redshift[15],"%.0f" % CGM_redshift[21]]
+    new_tick_locations = [t[i][3],t[i][9],t[i][12],t[i][15],t[i][21]]
+    new_tick_labels = ["%.0f" % z[i][3],"%.0f" % z[i][9],"%.0f" % z[i][12],"%.1f" % z[i][15],"%.0f" % z[i][21]]
     print(new_tick_locations)
     print(new_tick_labels)
 
@@ -82,6 +82,7 @@ for i in range(1):#len(names)):
     ax2.set_xlim(-1, 15)
     ax1.legend(loc=4)
     plt.text(-0.5,10.75,names[i],size=12)
+    plt.savefig(str(names[i])+'_CGMmassbyphase_redshift.pdf')
     plt.show()
 
 quit()
