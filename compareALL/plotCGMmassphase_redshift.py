@@ -28,11 +28,15 @@ plt.rc('xtick.major', size=6, width=1)
 plt.rc('lines', lw=2)
 plt.rc('axes', lw=1, labelsize=12)
 
-names  = ['P0','GM1','GM4','GM5','GM6','GM7']
-colors = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
-labels = ['cool','cool/warm','warm','hot']
-lines = ['-','--','-.',':']
-colors2 = ['lightcoral','indianred','FireBrick','DarkRed']
+names     = ['P0','GM1','GM4','GM5','GM6','GM7']
+colors    = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
+labels    = ['cool','cool/warm','warm','hot']
+lines     = ['-','--','-.',':']
+colors2   = ['lightcoral','indianred','FireBrick','DarkRed']
+ticks_P0  = [3,9,12,15,21]
+ticks_GM1 = [5,18,31,44,69]
+ticks_GM456  = [5,14,21,28,42]
+ticks     = [ticks_P0,ticks_GM1,ticks_GM456,ticks_GM456,ticks_GM456]
 
 # Load in the data and create phase arrays
 cool = []
@@ -41,9 +45,8 @@ warm = []
 hot  = []
 t    = []
 z    = []
-j = 0
-print(names[j])
-for j in range(1):#len(names)):
+
+for j in range(3):#len(names)):
     cool.append(np.loadtxt(names[j]+'_phaseCGM_mass_cool.txt'))
     cw.append(np.loadtxt(names[j]+'_phaseCGM_mass_cool_warm.txt'))
     warm.append(np.loadtxt(names[j]+'_phaseCGM_mass_warm.txt'))
@@ -53,8 +56,7 @@ for j in range(1):#len(names)):
 
 
 # CGM Mass vs Redshift/Time per Simulation
-i = 0
-for i in range(1):#len(names)):
+for i in range(3):#len(names)):
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax2 = ax1.twiny()
@@ -69,8 +71,9 @@ for i in range(1):#len(names)):
     ax1.set_ylabel('log(CGM Mass by Phase)')
     ax1.set_xlabel('Time [Gyr]')
 
-    new_tick_locations = [t[i][3],t[i][9],t[i][12],t[i][15],t[i][21]]
-    new_tick_labels = ["%.0f" % z[i][3],"%.0f" % z[i][9],"%.0f" % z[i][12],"%.1f" % z[i][15],"%.0f" % z[i][21]]
+    new_tick_locations = [t[i][ticks[i][0]],t[i][ticks[i][1]],t[i][ticks[i][2]],t[i][ticks[i][3]],t[i][ticks[i][4]]]
+    new_tick_labels = ["%.0f" % z[i][ticks[i][0]],"%.0f" % z[i][ticks[i][1]],"%.0f" % z[i][ticks[i][2]],"%.1f" % z[i][ticks[i][3]],"%.0f" % np.abs(z[i][ticks[i][4]])]
+#    new_tick_labels = ["%.3f" % z[i][ticks[i][0]],"%.3f" % z[i][ticks[i][1]],"%.3f" % z[i][ticks[i][2]],"%.3f" % z[i][ticks[i][3]],"%.3f" % np.abs(z[i][ticks[i][4]])]
     print(new_tick_locations)
     print(new_tick_labels)
 
