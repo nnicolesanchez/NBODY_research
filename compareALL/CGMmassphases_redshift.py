@@ -54,7 +54,7 @@ sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1b
 names  = ['P0','GM1','GM4','GM5','GM6','GM7']
 colors = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
 
-j=4
+j=5
 redshift = []
 time     = []
 phaseCGM_mass   = []
