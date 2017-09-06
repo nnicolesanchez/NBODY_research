@@ -5,6 +5,10 @@
 #        Warm: 10^5   - 10^6
 #        Hot:  10^6   - 10^7
 
+# Added in now:
+#        Warm_half1: 10^5   - 10^5.7
+#        Warm_half2: 10^5.5 - 10^6
+
 #     - Outputs:
 #         1. Numpy arrays for CGM Mass vs redshift/time for 
 #            all sims (P0-GM7)
@@ -34,6 +38,12 @@ else:
     elif (str(sys.argv[1]) == 'warm'):
         T_min = 10**5
         T_max = 10**6
+    elif (str(sys.argv[1]) == 'warm_half1'):
+        T_min = 10**5
+        T_max = 10**5.7
+    elif (str(sys.argv[1]) == 'warm_half2'):
+        T_min = 10**5.7
+        T_max = 10**6
     elif (str(sys.argv[1]) == 'hot'):
         T_min = 10**6
         T_max = 10**7
@@ -54,7 +64,7 @@ sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1b
 names  = ['P0','GM1','GM4','GM5','GM6','GM7']
 colors = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
 
-j=5
+j=0
 redshift = []
 time     = []
 phaseCGM_mass   = []
