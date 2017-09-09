@@ -5,7 +5,7 @@ import pynbody
 
 N = 2000
 
-sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.003968')
+sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004032')
 
 sim.properties
 sim.properties['time'].in_units('Gyr')
@@ -57,7 +57,7 @@ gas_met  = np.array(cool_gas['metals'][mask])
 
 
 import csv
-with open('GM4_coolgas_ulysses_data_3968.csv', 'w') as csvfile:
+with open('GM1_coolgas_ulysses_data_4032.csv', 'w') as csvfile:
     fieldnames = ['iords', 'mass', 'x', 'y', 'z', 'vx', 'vy', 'vz', 'rho', 'temp', 'metals']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',')
 
