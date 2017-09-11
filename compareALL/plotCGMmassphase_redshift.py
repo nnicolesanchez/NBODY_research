@@ -41,22 +41,24 @@ ticks     = [ticks_P0,ticks_GM1,ticks_GM456,ticks_GM456,ticks_GM456]
 # Load in the data and create phase arrays
 cool = []
 cw   = []
-warm = []
+warm1 = []
+warm2 = []
 hot  = []
 t    = []
 z    = []
 
-for j in range(5):#len(names)):
+for j in range(2):#len(names)):
     cool.append(np.loadtxt(names[j]+'_phaseCGM_mass_cool.txt'))
     cw.append(np.loadtxt(names[j]+'_phaseCGM_mass_cool_warm.txt'))
-    warm.append(np.loadtxt(names[j]+'_phaseCGM_mass_warm.txt'))
+    warm1.append(np.loadtxt(names[j]+'_phaseCGM_mass_warm_half1.txt'))
+    warm2.append(np.loadtxt(names[j]+'_phaseCGM_mass_warm_half2.txt'))
     hot.append(np.loadtxt(names[j]+'_phaseCGM_mass_hot.txt'))
     t.append(np.loadtxt(names[j]+'_time_Gyr.txt'))
     z.append(np.loadtxt(names[j]+'_redshifts.txt'))
 cool45 = cool + cw
 
 # CGM Mass vs Redshift/Time per Simulation
-for i in range(5):#len(names)):
+for i in range(2):#len(names)):
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax2 = ax1.twiny()
@@ -65,7 +67,8 @@ for i in range(5):#len(names)):
     print(t)
     print(np.log10(hot[i]))
     ax1.plot(t[i],np.log10(hot[i]),color=colors2[3],label=r'10$^6$ - 10$^7$ K',linestyle=lines[3])
-    ax1.plot(t[i],np.log10(warm[i]),color=colors2[2],label=r'10$^5$ - 10$^6$ K',linestyle=lines[2])
+    ax1.plot(t[i],np.log10(warm2[i]),color=colors2[2],label=r'10$^{5.7}$ - 10$^6$ K',linestyle=lines[2])
+    ax1.plot(t[i],np.log10(warm1[i]),color=colors2[1],label=r'10$^5$ - 10$^{5.7}$ K',linestyle=lines[1])
     #ax1.plot(t[i],np.log10(cw[i]),color=colors2[1],label='cool/warm',linestyle=lines[1])
     ax1.plot(t[i],np.log10(cool45[i]),color=colors2[0],label=r'10$^4$ - 10$^5$ K',linestyle=lines[0])
     ax1.set_ylabel('log(CGM Mass by Phase)')
@@ -87,7 +90,7 @@ for i in range(5):#len(names)):
     ax1.legend(loc=4)
     plt.text(-0.5,10.75,names[i],size=12)
     plt.savefig(str(names[i])+'_CGMmassbyphase_redshift.pdf')
-#    plt.show()
+    plt.show()
     plt.close()
 
 
@@ -100,7 +103,7 @@ ax1.plot(t[0],np.log10(cool45[0]),color=colors[0],label=names[0],linestyle=lines
 ax1.plot(t[1],np.log10(cool45[1]),color=colors[1],label=names[1],linestyle=lines[2])
 ax1.plot(t[2],np.log10(cool45[2]),color=colors[2],label=names[2],linestyle=lines[1])
 ax1.plot(t[3],np.log10(cool45[3]),color=colors[3],label=names[3],linestyle=lines[0])
-ax1.plot(t[4],np.log10(cool[4]),color=colors[4],label=names[4],linestyle=lines[3])
+ax1.plot(t[4],np.log10(cool45[4]),color=colors[4],label=names[4],linestyle=lines[3])
 #ax1.plot(t[5],np.log10(cool[5]),color=colors[5],label=names[5],linestyle=lines[2])
 ax1.set_ylabel(r'log(Cool CGM Mass) [T$^4$ - T$^5$]')
 ax1.set_xlabel('Time [Gyr]')
@@ -115,18 +118,34 @@ fig = plt.figure()
 ax1 = fig.add_subplot(111)
 ax2 = ax1.twiny()
 
-ax1.plot(t[0],np.log10(warm[0]),color=colors[0],label=names[0],linestyle=lines[3])
-ax1.plot(t[1],np.log10(warm[1]),color=colors[1],label=names[1],linestyle=lines[2])
-ax1.plot(t[2],np.log10(warm[2]),color=colors[2],label=names[2],linestyle=lines[1])
-ax1.plot(t[3],np.log10(warm[3]),color=colors[3],label=names[3],linestyle=lines[0])
-ax1.plot(t[4],np.log10(warm[4]),color=colors[4],label=names[4],linestyle=lines[3])
+ax1.plot(t[0],np.log10(warm1[0]),color=colors[0],label=names[0],linestyle=lines[3])
+ax1.plot(t[1],np.log10(warm1[1]),color=colors[1],label=names[1],linestyle=lines[2])
+ax1.plot(t[2],np.log10(warm1[2]),color=colors[2],label=names[2],linestyle=lines[1])
+ax1.plot(t[3],np.log10(warm1[3]),color=colors[3],label=names[3],linestyle=lines[0])
+ax1.plot(t[4],np.log10(warm1[4]),color=colors[4],label=names[4],linestyle=lines[3])
 #ax1.plot(t[5],np.log10(warm[5]),color=colors[5],label=names[5],linestyle=lines[2])
-ax1.set_ylabel(r'log(Warm CGM Mass) [T$^5$ - T$^6$]')
+ax1.set_ylabel(r'log(Warm CGM Mass) [T$^5$ - T$^{5.7}$]')
 ax1.set_xlabel('Time [Gyr]')
 ax1.legend()
-plt.savefig('ALL_warmCGMmass_redshift.pdf')
+plt.savefig('ALL_warm1CGMmass_redshift.pdf')
 plt.show()
 
+# WARM CGM Mass (for all gxys) vs Redshift
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+ax2 = ax1.twiny()
+
+ax1.plot(t[0],np.log10(warm2[0]),color=colors[0],label=names[0],linestyle=lines[3])
+ax1.plot(t[1],np.log10(warm2[1]),color=colors[1],label=names[1],linestyle=lines[2])
+ax1.plot(t[2],np.log10(warm2[2]),color=colors[2],label=names[2],linestyle=lines[1])
+ax1.plot(t[3],np.log10(warm2[3]),color=colors[3],label=names[3],linestyle=lines[0])
+ax1.plot(t[4],np.log10(warm2[4]),color=colors[4],label=names[4],linestyle=lines[3])
+#ax1.plot(t[5],np.log10(warm[5]),color=colors[5],label=names[5],linestyle=lines[2])
+ax1.set_ylabel(r'log(Warm CGM Mass) [T$^{5.7}$ - T$^6$]')
+ax1.set_xlabel('Time [Gyr]')
+ax1.legend()
+plt.savefig('ALL_warm2CGMmass_redshift.pdf')
+plt.show()
 
 # HOT CGM Mass (for all gxys) vs Redshift
 fig = plt.figure()
