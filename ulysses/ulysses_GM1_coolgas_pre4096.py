@@ -5,7 +5,7 @@ import pynbody
 
 N = 2000
 
-sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.003968')
+sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004032')
 
 sim.properties
 sim.properties['time'].in_units('Gyr')
@@ -36,33 +36,34 @@ cool_gas = CGM_gas[cool_stuff]
 print('Number of cool gas particles:',len(cool_gas))
 
 pynbody.plot.sph.image(cool_gas,qty="rho",units="g cm^-3",width=100,cmap="Greys")
-plt.savefig('GM4_coolgas_rho_faceon.pdf')
+#plt.savefig('GM4_coolgas_rho_faceon.pdf')
 #plt.show()
 
-iord_mask = np.random.choice(cool_gas['iord'],size=N,replace=False)
+#iord_mask = np.random.choice(cool_gas['iord'],size=N,replace=False)
 
 # TURN ON FOR IORDS PRIOR TO 4096
-#iord_4096 = np.loadtxt('GM1_coolgas_ulysses_data_4096.csv',delimiter=',',skiprows=4,usecols=0)
-#print(iord_4096)
+iord_4096 = np.loadtxt('GM1_coolgas_ulysses_data_4096.csv',delimiter=',',skiprows=4,usecols=0)
+print(iord_4096[0:100])
 
-mask = np.in1d(cool_gas['iord'],iord_mask,assume_unique=True)
-print(len(cool_gas['iord'][mask]))
+mask = np.in1d(h1.g['iord'],iord_4096,assume_unique=False)
+print(len(h1.g['iord'][mask]))
 
-gas_iord = np.array(cool_gas['iord'][mask])
-print('Number of cool gas particles:',len(cool_gas['iord'][mask]))
-gas_mass = np.array(cool_gas['mass'][mask])
-gas_pos  = np.array(cool_gas['pos'][mask])*sim.properties['a']
-gas_v    = np.array(cool_gas['vel'][mask])*sim.properties['a']
-gas_rho  = np.array(cool_gas['rho'][mask])
-gas_T    = np.array(cool_gas['temp'][mask])
-gas_met  = np.array(cool_gas['metals'][mask])
+gas_iord = np.array(h1.g['iord'][mask])
+print('Number of cool gas particles:',len(h1.g['iord'][mask]))
+print(gas_iord[0:100])
+gas_mass = np.array(h1.g['mass'][mask])
+gas_pos  = np.array(h1.g['pos'][mask])*sim.properties['a']
+gas_v    = np.array(h1.g['vel'][mask])*sim.properties['a']
+gas_rho  = np.array(h1.g['rho'][mask])
+gas_T    = np.array(h1.g['temp'][mask])
+gas_met  = np.array(h1.g['metals'][mask])
 
 #pynbody.plot.sph.image(cool_gas[mask],qty="rho",units="g cm^-3",width=100,cmap="Greys")
 #plt.show()
 
 
 import csv
-with open('GM1_coolgas_ulysses_data_3968.csv', 'w') as csvfile:
+with open('GM1_coolgas_ulysses_data_4032.csv', 'w') as csvfile:
     fieldnames = ['iords', 'mass', 'x', 'y', 'z', 'vx', 'vy', 'vz', 'rho', 'temp', 'metals']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',')
 
@@ -80,7 +81,7 @@ with open('GM1_coolgas_ulysses_data_3968.csv', 'w') as csvfile:
 
 
     for i in range(len(gas_iord)):
-        print(str(int(gas_iord[i])), str(gas_mass[i]), str(gas_pos[i,0]))
+        #print(str(int(gas_iord[i])), str(gas_mass[i]), str(gas_pos[i,0]))
         writer.writerow({'iords': str(gas_iord[i]), 'mass': str("%.2f" % gas_mass[i]), 'x': str("%.2f" % gas_pos[i,0]), 'y': str("%.2f" % gas_pos[i,1]), 'z': str("%.2f" % gas_pos[i,2]), 'vx': str("%.2f" % gas_v[i,0]), 'vy': str("%.2f" % gas_v[i,1]), 'vz': str("%.2f" % gas_v[i,2]), 'rho': str("%.2f" % np.log10(gas_rho[i])), 'temp': str("%.2f" % np.log10(gas_T[i])), 'metals': str("%.2f" % np.log10(gas_met[i]))})
 
 
