@@ -33,12 +33,12 @@ labels    = ['cool','cool/warm','warm','hot']
 
 
 sims = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.00']
-steps = ['0454','0972','1739','2554','3200','4096']
+steps = ['0454','0972','1739','2554','3200','4096']  # Use 3200 for all GM, but 3195 for P0
 labels2 = ['z = 4','z = 2','z = 1','z = 0.5','z = 0.25','z = 0']
 lines   = ['-','--','-.',':']
 colors2 = ['lightcoral','indianred','FireBrick','DarkRed','Purple','Violet']
 
-for k in range(1,2):#len(sims)):
+for k in range(1,6):
     for j in range(len(steps)):
         print(str(sims[k])+str(steps[j]))
         sim = pynbody.load(str(sims[k])+str(steps[j]))
@@ -82,9 +82,9 @@ for k in range(1,2):#len(sims)):
 
             CGM_cumudist.append(float(bin_mass))
 
-        np.savetxt(names[0]+'_totCGMmassvsradius.txt',np.array(CGM_cumudist))
-        np.savetxt(names[0]+'_radius.txt',np.array(dist_bins))
-            
+        np.savetxt(names[k]+'_totCGMmass_'+steps[j]+'.txt',CGM_cumudist)
+        np.savetxt(names[k]+'_radius.txt',dist_bins)
+
 
         # WARM CGM MASS
         T_min = 10**5
@@ -101,8 +101,8 @@ for k in range(1,2):#len(sims)):
             print('the total warm mass in CGM gas is: ', bin_mass)
 
             warm_cumudist.append(float(bin_mass))
-        np.savetxt(names[0]+'_warmCGMmassvsradius.txt',np.array(warm_cumudist))
-            
+        
+        np.savetxt(names[k]+'_warmCGMmass_'+steps[j]+'.txt',np.array(warm_cumudist))
 
         # WARM HALF1 CGM MASS
         T_min = 10**5
@@ -119,7 +119,7 @@ for k in range(1,2):#len(sims)):
             print('the total warm mass in CGM gas is: ', bin_mass)
 
             warm1_cumudist.append(float(bin_mass))
-        np.savetxt(names[0]+'_warm_half1CGMmassvsradius.txt',np.array(warm1_cumudist))
+        np.savetxt(names[k]+'_warm_half1CGMmass_'+steps[j]+'.txt',np.array(warm1_cumudist))
             
 
         # WARM HALF1 CGM MASS
@@ -137,4 +137,4 @@ for k in range(1,2):#len(sims)):
             print('the total warm mass in CGM gas is: ', bin_mass)
 
             warm2_cumudist.append(float(bin_mass))
-            np.savetxt(names[0]+'_warm_half2CGMmassvsradius.txt',np.array(warm2_cumudist))
+            np.savetxt(names[k]+'_warm_half2CGMmass_'+steps[j]+'.txt',np.array(warm2_cumudist))
