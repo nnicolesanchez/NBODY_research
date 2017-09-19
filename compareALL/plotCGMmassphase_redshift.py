@@ -63,7 +63,7 @@ cool45 = cool + cw
 
 
 # CGM Mass vs Redshift/Time per Simulation
-for i in range(3):#len(names)):
+for i in range(4):#len(names)):
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax2 = ax1.twiny()
@@ -88,14 +88,21 @@ for i in range(3):#len(names)):
     ax2.set_xticklabels(new_tick_labels)
     ax2.set_xlabel('z')
 
-#    ax1.set_xlim(-1, 15)
-#    ax2.set_xlim(-1, 15)
-    ax1.set_xlim(3.25, 9) 
-    ax2.set_xlim(3.25, 9) 
+# FULL PLOT
+    ax1.set_xlim(-1, 15)
+    ax2.set_xlim(-1, 15)
     ax1.set_ylim(5.25,11.25)
-    ax1.legend(loc=4)
-    plt.text(3.75,10.75,names[i],size=12)
+    plt.text(-0.5,10.75,names[i],size=12)
     plt.savefig(str(names[i])+'_CGMmassbyphase_redshift.pdf')
+
+# ZOOM IN
+#    ax1.set_xlim(3.25, 9) 
+#    ax2.set_xlim(3.25, 9) 
+#    ax1.set_ylim(5.25,11.25)
+#    plt.text(3.5,10.75,names[i],size=12)
+#    plt.savefig(str(names[i])+'zoomin_CGMmassbyphase_redshift.pdf')
+
+    ax1.legend(loc=4)
     plt.show()
     plt.close()
 
