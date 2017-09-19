@@ -2,7 +2,8 @@
 # of different phases:
 #        Cool: 10^4   - 10^4.5
 #              10^4.5 - 10^5
-#        Warm: 10^5   - 10^6
+#        Warm: 10^5   - 10^5.7
+#              10^5.7 - 10^6
 #        Hot:  10^6   - 10^7
 
 #     - Outputs:
@@ -39,15 +40,16 @@ ticks_GM456  = [5,14,21,28,42]
 ticks     = [ticks_P0,ticks_GM1,ticks_GM456,ticks_GM456,ticks_GM456]
 
 # Load in the data and create phase arrays
-cool = []
-cw   = []
+cool  = []
+cw    = []
 warm1 = []
 warm2 = []
-hot  = []
-t    = []
-z    = []
+hot   = []
+t     = []
+z     = []
+stars = []
 
-for j in range(2):#len(names)):
+for j in range(4):#len(names)):
     cool.append(np.loadtxt(names[j]+'_phaseCGM_mass_cool.txt'))
     cw.append(np.loadtxt(names[j]+'_phaseCGM_mass_cool_warm.txt'))
     warm1.append(np.loadtxt(names[j]+'_phaseCGM_mass_warm_half1.txt'))
@@ -55,22 +57,24 @@ for j in range(2):#len(names)):
     hot.append(np.loadtxt(names[j]+'_phaseCGM_mass_hot.txt'))
     t.append(np.loadtxt(names[j]+'_time_Gyr.txt'))
     z.append(np.loadtxt(names[j]+'_redshifts.txt'))
+    stars.append(np.loadtxt(names[j]+'_totstellarmass.txt'))
 cool45 = cool + cw
 
+
+
 # CGM Mass vs Redshift/Time per Simulation
-for i in range(2):#len(names)):
+for i in range(3):#len(names)):
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax2 = ax1.twiny()
 
     print(i)
     print(t)
-    print(np.log10(hot[i]))
-    ax1.plot(t[i],np.log10(hot[i]),color=colors2[3],label=r'10$^6$ - 10$^7$ K',linestyle=lines[3])
-    ax1.plot(t[i],np.log10(warm2[i]),color=colors2[2],label=r'10$^{5.7}$ - 10$^6$ K',linestyle=lines[2])
-    ax1.plot(t[i],np.log10(warm1[i]),color=colors2[1],label=r'10$^5$ - 10$^{5.7}$ K',linestyle=lines[1])
-    #ax1.plot(t[i],np.log10(cw[i]),color=colors2[1],label='cool/warm',linestyle=lines[1])
-    ax1.plot(t[i],np.log10(cool45[i]),color=colors2[0],label=r'10$^4$ - 10$^5$ K',linestyle=lines[0])
+    ax1.plot(t[i],np.log10(hot[i]),color=colors2[3],label=r'CGM 10$^6$ - 10$^7$ K',linestyle=lines[3])
+    ax1.plot(t[i],np.log10(warm2[i]),color=colors2[2],label=r'CGM 10$^{5.7}$ - 10$^6$ K',linestyle=lines[2])
+    ax1.plot(t[i],np.log10(warm1[i]),color=colors2[1],label=r'CGM 10$^5$ - 10$^{5.7}$ K',linestyle=lines[1])
+    ax1.plot(t[i],np.log10(cool45[i]),color=colors2[0],label=r'CGM 10$^4$ - 10$^5$ K',linestyle=lines[0])
+    ax1.plot(t[i],np.log10(stars[i]),color=colors[1],label='Stellar Mass',linestyle=lines[1])
     ax1.set_ylabel('log(CGM Mass by Phase)')
     ax1.set_xlabel('Time [Gyr]')
 
@@ -84,16 +88,18 @@ for i in range(2):#len(names)):
     ax2.set_xticklabels(new_tick_labels)
     ax2.set_xlabel('z')
 
-    ax1.set_xlim(-1, 15)
-    ax2.set_xlim(-1, 15)
+#    ax1.set_xlim(-1, 15)
+#    ax2.set_xlim(-1, 15)
+    ax1.set_xlim(3.25, 9) 
+    ax2.set_xlim(3.25, 9) 
     ax1.set_ylim(5.25,11.25)
     ax1.legend(loc=4)
-    plt.text(-0.5,10.75,names[i],size=12)
+    plt.text(3.75,10.75,names[i],size=12)
     plt.savefig(str(names[i])+'_CGMmassbyphase_redshift.pdf')
     plt.show()
     plt.close()
 
-
+quit()
 # COOL CGM Mass (for all gxys) vs Redshift
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
