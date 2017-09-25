@@ -5,7 +5,7 @@ import pynbody
 
 N = 2000
 
-sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.003968')
+sim = pynbody.load('/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096')
 
 sim.properties
 sim.properties['time'].in_units('Gyr')
@@ -36,7 +36,7 @@ cool_gas = CGM_gas[cool_stuff]
 print('Number of cool gas particles:',len(cool_gas))
 
 pynbody.plot.sph.image(cool_gas,qty="rho",units="g cm^-3",width=100,cmap="Greys")
-plt.savefig('GM4_coolgas_rho_faceon.pdf')
+plt.savefig('GM1_coolgas_rho_faceon.pdf')
 #plt.show()
 
 iord_mask = np.random.choice(cool_gas['iord'],size=N,replace=False)
@@ -62,7 +62,7 @@ gas_met  = np.array(cool_gas['metals'][mask])
 
 
 import csv
-with open('GM1_coolgas_ulysses_data_3968.csv', 'w') as csvfile:
+with open('GM1_coolgas_ulysses_data_4096.csv', 'w') as csvfile:
     fieldnames = ['iords', 'mass', 'x', 'y', 'z', 'vx', 'vy', 'vz', 'rho', 'temp', 'metals']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',')
 
@@ -70,13 +70,13 @@ with open('GM1_coolgas_ulysses_data_3968.csv', 'w') as csvfile:
     writer.writeheader()
 
     # Units
-    writer.writerow({'iords': 'NoUnit()', 'mass': str(sim.g['mass'].units), 'x': str(sim.g['pos'].units)+'*a', 'y': str(sim.g['pos'].units)+'*a', 'z': str(sim.g['pos'].units)+'*a', 'vx': str(sim.g['vel'].units)+'*a', 'vy': str(sim.g['vel'].units)+'*a', 'vz': str(sim.g['vel'].units)+'*a', 'rho': 'log('+str(sim.g['rho'].units)+')','temp': 'log(NoUnit())', 'metals': 'log(NoUnit())'})
+#    writer.writerow({'iords': 'NoUnit()', 'mass': str(sim.g['mass'].units), 'x': str(sim.g['pos'].units)+'*a', 'y': str(sim.g['pos'].units)+'*a', 'z': str(sim.g['pos'].units)+'*a', 'vx': str(sim.g['vel'].units)+'*a', 'vy': str(sim.g['vel'].units)+'*a', 'vz': str(sim.g['vel'].units)+'*a', 'rho': 'log('+str(sim.g['rho'].units)+')','temp': 'log(NoUnit())', 'metals': 'log(NoUnit())'})
 
     # Max
-    writer.writerow({'iords': str(int(np.max(gas_iord))), 'mass': str("%.2f" % np.max(gas_mass)), 'x': str("%.2f" % np.max(gas_pos)), 'y': str("%.2f" % np.max(gas_pos)), 'z': str("%.2f" % np.max(gas_pos)), 'vx': str("%.2f" % np.max(gas_v)), 'vy': str("%.2f" % np.max(gas_v)), 'vz': str("%.2f" % np.max(gas_v)), 'rho': str("%.2f" % np.max(gas_rho)), 'temp': str("%.2f" % np.max(gas_T)), 'metals': str("%.2f" % np.max(gas_met))})
+#    writer.writerow({'iords': str(int(np.max(gas_iord))), 'mass': str("%.2f" % np.max(gas_mass)), 'x': str("%.2f" % np.max(gas_pos)), 'y': str("%.2f" % np.max(gas_pos)), 'z': str("%.2f" % np.max(gas_pos)), 'vx': str("%.2f" % np.max(gas_v)), 'vy': str("%.2f" % np.max(gas_v)), 'vz': str("%.2f" % np.max(gas_v)), 'rho': str("%.2f" % np.max(gas_rho)), 'temp': str("%.2f" % np.max(gas_T)), 'metals': str("%.2f" % np.max(gas_met))})
     
     # Min
-    writer.writerow({'iords': str(int(np.min(gas_iord))), 'mass': str("%.2f" % np.min(gas_mass)), 'x': str("%.2f" % np.min(gas_pos)), 'y': str("%.2f" % np.min(gas_pos)), 'z': str("%.2f" % np.min(gas_pos)), 'vx': str("%.2f" % np.min(gas_v)), 'vy': str("%.2f" % np.min(gas_v)), 'vz': str("%.2f" % np.min(gas_v)), 'rho': str("%.2f" % np.min(gas_rho)), 'temp': str("%.2f" % np.min(gas_T)), 'metals': str("%.2f" % np.min(gas_met))})
+#    writer.writerow({'iords': str(int(np.min(gas_iord))), 'mass': str("%.2f" % np.min(gas_mass)), 'x': str("%.2f" % np.min(gas_pos)), 'y': str("%.2f" % np.min(gas_pos)), 'z': str("%.2f" % np.min(gas_pos)), 'vx': str("%.2f" % np.min(gas_v)), 'vy': str("%.2f" % np.min(gas_v)), 'vz': str("%.2f" % np.min(gas_v)), 'rho': str("%.2f" % np.min(gas_rho)), 'temp': str("%.2f" % np.min(gas_T)), 'metals': str("%.2f" % np.min(gas_met))})
 
 
     for i in range(len(gas_iord)):
