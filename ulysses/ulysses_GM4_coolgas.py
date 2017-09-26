@@ -32,7 +32,7 @@ disk_gas_mask = disk_gas_xymax & disk_gas_zmax
 disk_gas = h1.g[disk_gas_xymax & disk_gas_zmax]
 CGM_gas  = h1.g[~disk_gas_mask]
     
-cool_stuff = (CGM_gas['temp'] < 10**5) & (CGM_gas['temp'] > 10**4)
+cool_stuff = (CGM_gas['temp'] < 10**5) & (CGM_gas['temp'] > 10**4.5)
 cool_gas = CGM_gas[cool_stuff]
 print('Number of cool gas particles:',len(cool_gas))
 

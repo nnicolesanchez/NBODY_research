@@ -63,7 +63,7 @@ gas_met  = np.array(sim.g['metals'][mask])
 
 
 import csv
-with open('GM1_coolgas_ulysses_data_4032.csv', 'w') as csvfile:
+with open('GM1_coolgas_ulysses_data_3968.csv', 'w') as csvfile:
     fieldnames = ['iords', 'mass', 'x', 'y', 'z', 'vx', 'vy', 'vz', 'rho', 'temp', 'metals']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',')
 
