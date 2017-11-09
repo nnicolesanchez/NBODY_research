@@ -16,7 +16,7 @@ def N_OVI(f):
     return f.gas['rho'].in_units('g cm**-3')*ovi*f.gas['OxMassFrac']/(16*m_p)
 
     
-k = 4
+k = 1
 sim = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096']
 labels = ['P0','GM1','GM4','GM5','GM6','GM7']
 
@@ -35,6 +35,7 @@ pynbody.analysis.angmom.faceon(h1)
 ###################
 # Isolate and remove disk stars within radius 0-10 kpc & vertically 10 kpc 
 r_max = 10  # kpc
+twenty_kpc_incm = 6.171*(10**22)
 #z_max = 10 #4 # kpc
 
 Rg_d = ((h1.g['x'].in_units('kpc'))**2. + (h1.g['y'].in_units('kpc'))**2. + (h1.g['z'].in_units('kpc'))**2.)**(0.5)
@@ -61,7 +62,7 @@ print('OVI Density: ',OVI,OVI.units)
 # DIVIDE PARTICLES INTO SHELLS & CALCULATE COLUMN DENSITIES #
 #############################################################
 # In shells of 10 kpc, take an average density and line of sight L for each shell
-shell_bounds = np.arange(0,240,10)
+shell_bounds = np.arange(0,270,10)
 CGM_r = (CGM_gas['x']**2 + CGM_gas['y']**2)**(0.5)
 R_vir = int(np.max(CGM_r))
 print('R_vir',int(np.max(CGM_r)),CGM_gas['x'].units)
@@ -80,7 +81,11 @@ for i in range(len(shell_bounds)-1):
     shell_z = np.max(shell['z'].in_units('cm')) - np.min(shell['z'].in_units('cm'))
     print(shell_z)
     
-    CGM_Novi.append(avg_shell_OVI_rho*shell_z) # Using shell_z to underestimate gas
+    if i == 0 :
+        CGM_Novi.append(avg_shell_OVI_rho*(shell_z - twenty_kpc_incm))
+        print('Remove 20 kpc in z because of empty center within 10 kpc radius')
+    else:
+        CGM_Novi.append(avg_shell_OVI_rho*shell_z) # Using shell_z to underestimate gas
 
 print(CGM_Novi)
 
