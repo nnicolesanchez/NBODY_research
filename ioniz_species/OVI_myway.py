@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
 import pynbody
 
@@ -16,9 +17,10 @@ def N_OVI(f):
     return f.gas['rho'].in_units('g cm**-3')*ovi*f.gas['OxMassFrac']/(16*m_p)
 
     
-k = 1
+k = 2
 sim = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096']
 labels = ['P0','GM1','GM4','GM5','GM6','GM7']
+colors = sns.cubehelix_palette(8)
 
 ######################
 # READ IN SIMULATION #
@@ -54,24 +56,55 @@ m_p = 1.6726 * 10**-24 #g
 
 # OVI density = total CGM gas density * fraction of oxygen * fraction of OVI / mass of oxygen
 OVI = CGM_gas['rho'].in_units('g cm**-3')*ovi*CGM_gas['OxMassFrac']/(16*m_p)
+print('Total mass in CGM:', np.sum(CGM_gas['mass']))
 print('Total mass Oxygen in CGM:', np.sum(CGM_gas['OxMassFrac']*CGM_gas['mass']),CGM_gas['mass'].units)
 print('Total mass in OVI in CGM:', np.sum(CGM_gas['OxMassFrac']*CGM_gas['mass']*ovi))
 print('OVI Density: ',OVI,OVI.units)
 
+print('OVI fractions:',np.average(ovi))
+print(CGM_gas['temp'].units)
+
+CGM_temp = np.array(CGM_gas['temp'])
+
+plt.plot(np.log10(CGM_temp[0:10000]),ovi[0:10000],'.')
+plt.ylabel(r'f$_{OVI}$')
+plt.xlabel('log(T [K])')
+plt.savefig(str(labels[k])+'_fracOVI_temp.pdf')
+plt.show()
+
+quit()
 #############################################################
 # DIVIDE PARTICLES INTO SHELLS & CALCULATE COLUMN DENSITIES #
 #############################################################
 # In shells of 10 kpc, take an average density and line of sight L for each shell
-shell_bounds = np.arange(0,270,10)
+shell_bounds = np.arange(0,275,5)
 CGM_r = (CGM_gas['x']**2 + CGM_gas['y']**2)**(0.5)
 R_vir = int(np.max(CGM_r))
 print('R_vir',int(np.max(CGM_r)),CGM_gas['x'].units)
 
+
+fig = plt.figure(figsize=(8, 8))
+ax1 = fig.add_subplot(221)
+ax2 = fig.add_subplot(222)
 CGM_Novi = []
+pathlength = []
 for i in range(len(shell_bounds)-1):
     shell = CGM_gas[(np.abs(CGM_r) > shell_bounds[i]) & (np.abs(CGM_r) < shell_bounds[i+1])]
     shell_ovi_frac = ovi[(np.abs(CGM_r) > shell_bounds[i]) & (np.abs(CGM_r) < shell_bounds[i+1])]
     shell_OVI_rho = shell['rho'].in_units('g cm**-3')*shell_ovi_frac*shell['OxMassFrac']/(16*m_p)
+    #    pynbody.plot.sph.image(shell,qty="rho",units="g cm^-3",width=300,z_camera=)
+
+    # Test some stuff to make sure I'm doing my path length measurements right
+    shell_x = np.array(shell['x'])
+    shell_y = np.array(shell['y'])
+    shell_z = np.array(shell['z'])
+
+    ax1.plot(shell_x,shell_y,'.')#color=sns.cubehelix_palette(8)[i])
+    j = 1 - i/26.
+    print(j)
+    ax2.plot(shell_x,shell_z,'.',alpha=j)
+    print(np.min(shell_z),np.max(shell_z))
+
     avg_shell_OVI_rho = np.average(shell_OVI_rho)
     print(avg_shell_OVI_rho,shell_OVI_rho.units)
 
@@ -81,19 +114,28 @@ for i in range(len(shell_bounds)-1):
     shell_z = np.max(shell['z'].in_units('cm')) - np.min(shell['z'].in_units('cm'))
     print(shell_z)
     
-    if i == 0 :
+    if i <= 1 :
         CGM_Novi.append(avg_shell_OVI_rho*(shell_z - twenty_kpc_incm))
         print('Remove 20 kpc in z because of empty center within 10 kpc radius')
     else:
         CGM_Novi.append(avg_shell_OVI_rho*shell_z) # Using shell_z to underestimate gas
+        pathlength.append(shell_z/(3.086*10**21))
 
+plt.show()
 print(CGM_Novi)
 
 b_impact = shell_bounds + 5
 print(b_impact)
 
+pathlength_kpc = pathlength #kpc
+
+plt.plot(shell_bounds[:-3],pathlength_kpc)
+plt.show()
+quit()
+
+
 plt.plot(shell_bounds[:-1],np.log10(CGM_Novi),marker='.')
-plt.ylabel(r'N$_{OVI}$ [g cm$^{-2}$]')
+plt.ylabel(r'N$_{OVI}$ [cm$^{-2}$]')
 plt.xlabel(r'$r$ [kpc]')
 plt.ylim(12,17.5)
 plt.xlim(-10,260)
