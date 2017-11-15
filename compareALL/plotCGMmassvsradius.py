@@ -28,6 +28,7 @@ plt.rc('axes', lw=1, labelsize=12)
 names     = ['P0','GM1','GM4','GM5','GM6','GM7']
 colors    = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
 labels    = ['cool','cool/warm','warm','hot']
+R_vir      = [262.25,264.5,250,254.7,239.8]
 lines     = [':','-.','--','-',':','-.']
 
 #steps1    = ['0454','0972','1739','2554','3195','4096'] # Use 3195 for P0 and 3200 for the rest of the GM
@@ -60,7 +61,10 @@ for i in range(len(names)-1):
 
         ax1.plot(radii[:-1],np.log10(warm1),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
         ax2.plot(radii[:-1],np.log10(warm2),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
+        ax1.plot([R_vir[i],R_vir[i]],[4,10],color='grey',linestyle='--')
+        ax2.plot([R_vir[i],R_vir[i]],[4,10],color='grey',linestyle='--')
 #        ax3.plot(radii[:-1],np.log10(warm),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
+
 
 #    ax3.set_ylabel(r'T = 10$^{5}$ - 10$^{6}$ K')
     ax1.set_ylabel(r'T = 10$^{5-5.7}$ K')
@@ -68,13 +72,15 @@ for i in range(len(names)-1):
     ax1.set_title(str(names[i])+' Warm CGM Mass Profile [M$_{\odot}$]')
     ax1.set_ylim(5,9)
     ax2.set_ylim(5,9)
+    ax1.set_xlim(-10,270)
+    ax2.set_xlim(-10,270)
     plt.xlabel('Radius [kpc]')
     plt.subplots_adjust(hspace = .001)
-    ax1.legend(loc='right')#bbox_to_anchor=(0.77, 0.6),facecolor='white')#,loc='right')
+    ax1.legend(loc='right')#bbox_to_anchor=(.95, 1.0))
     plt.savefig(names[i]+'_warmCGMmassvsradius_split.pdf')
     plt.show()
     plt.close()
-
+#    quit()
 quit()
 
 fig = plt.figure(figsize=(10, 8))
