@@ -28,19 +28,23 @@ plt.rc('axes', lw=1, labelsize=12)
 names     = ['P0','GM1','GM4','GM5','GM6','GM7']
 colors    = ['DodgerBlue','SteelBlue','FireBrick','IndianRed','Salmon','Orange']
 labels    = ['cool','cool/warm','warm','hot']
-lines     = ['-','--','-.',':','-','--','-.']
-colors2   = ['Orange','Salmon','lightcoral','indianred','FireBrick','DarkRed']
-steps1    = ['0454','0972','1739','2554','3195','4096'] # Use 3195 for P0 and 3200 for the rest of the GM
-steps2    = ['0454','0972','1739','2554','3200','4096'] 
-labels2   = ['z = 4','z = 2','z = 1','z = 0.5','z = 0.25','z = 0']
+lines     = [':','-.','--','-',':','-.']
+
+#steps1    = ['0454','0972','1739','2554','3195','4096'] # Use 3195 for P0 and 3200 for the rest of the GM
+#steps2    = ['0454','0972','1739','2554','3200','4096'] 
+#labels2   = ['z = 4','z = 2','z = 1','z = 0.5','z = 0.25','z = 0']
+
+colors2   = ['LightGreen','MediumSeaGreen','Green','DarkSlateGrey']
+steps1    = ['0972','1739','2554','4096'] # Use 3195 for P0 and 3200 for the rest of the GM
+steps2    = ['0972','1739','2554','4096']
+labels2   = ['z = 2','z = 1','z = 0.5','z = 0']
 
 
-
-for i in range(len(names)):
-    fig = plt.figure(figsize=(10, 8))
-    ax1 = fig.add_subplot(311)
-    ax2 = fig.add_subplot(312)
-    ax3 = fig.add_subplot(313)
+for i in range(len(names)-1):
+    fig = plt.figure(figsize=(8, 4))
+    ax1 = fig.add_subplot(211)
+    ax2 = fig.add_subplot(212)
+#    ax3 = fig.add_subplot(313)
 
     if (i == 0):
         steps = steps1
@@ -56,16 +60,18 @@ for i in range(len(names)):
 
         ax1.plot(radii[:-1],np.log10(warm1),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
         ax2.plot(radii[:-1],np.log10(warm2),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
-        ax3.plot(radii[:-1],np.log10(warm),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
+#        ax3.plot(radii[:-1],np.log10(warm),color=colors2[j],linestyle=lines[j],label=str(labels2[j]))
 
-    ax3.set_ylabel(r'T = 10$^{5}$ - 10$^{6}$ K')
-    ax1.set_ylabel(r'T = 10$^{5}$ - 10$^{5.7}$ K')
-    ax2.set_ylabel(r'T = 10$^{5.7}$ - 10$^{6}$ K')
-    ax1.set_title(str(names[i])+' Cumulative Warm CGM Mass [M$_{\odot}$]')
+#    ax3.set_ylabel(r'T = 10$^{5}$ - 10$^{6}$ K')
+    ax1.set_ylabel(r'T = 10$^{5-5.7}$ K')
+    ax2.set_ylabel(r'T = 10$^{5.7-6}$ K')
+    ax1.set_title(str(names[i])+' Warm CGM Mass Profile [M$_{\odot}$]')
+    ax1.set_ylim(5,9)
+    ax2.set_ylim(5,9)
     plt.xlabel('Radius [kpc]')
     plt.subplots_adjust(hspace = .001)
-    ax3.legend(loc='right')
-    plt.savefig(names[i]+'_warmCGMmassvsradius.pdf')
+    ax1.legend(loc='right')#bbox_to_anchor=(0.77, 0.6),facecolor='white')#,loc='right')
+    plt.savefig(names[i]+'_warmCGMmassvsradius_split.pdf')
     plt.show()
     plt.close()
 
