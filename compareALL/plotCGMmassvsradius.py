@@ -41,7 +41,7 @@ labels2   = ['z = 2','z = 1','z = 0.5','z = 0']
 
 
 for i in range(len(names)-1):
-    fig = plt.figure(figsize=(8, 4))
+    fig = plt.figure(figsize=(8, 5))
     ax1 = fig.add_subplot(211)
     ax2 = fig.add_subplot(212)
 #    ax3 = fig.add_subplot(313)
