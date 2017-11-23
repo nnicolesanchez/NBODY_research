@@ -29,7 +29,7 @@ print('LOADING SIM:',labels[k])
 
 ts = np.loadtxt('../'+labels[k]+'/timesteps.txt',dtype=str)
 for t in range(len(ts)):
-#    t = len(ts)-1
+    t = len(ts)-1
     print('Loading sim:',sim[k],' at timestep:',float(ts[t]))
 
     ######################
@@ -153,11 +153,11 @@ for t in range(len(ts)):
     plt.plot(shell_bounds[0:len(CGM_Novi)],np.log10(CGM_Novi),marker='.',label=labels[k])
     plt.ylabel(r'N$_{OVI}$ [cm$^{-2}$]')
     plt.xlabel(r'$r$ [kpc]')
-#    plt.ylim(12,17.5)
-#    plt.xlim(-10,260)
-    plt.text(240,17.25,str(labels[k]))
+    plt.ylim(12,17.5)
+    plt.xlim(-10,850)
+    plt.text(10,17.25,str(labels[k]))
     plt.legend()
-    plt.savefig(labels[k]+'_NOVI_b_'+ts[i]+'.pdf')
+    plt.savefig(labels[k]+'_NOVI_b_'+ts[t]+'.pdf')
     plt.show()
 #    quit()
 
