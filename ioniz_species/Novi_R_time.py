@@ -20,7 +20,7 @@ def N_OVI(f):
     return f.gas['rho'].in_units('g cm**-3')*ovi*f.gas['OxMassFrac']/(16*m_p)
 
 # Just using k = 1 and k = 2, for GM1 & GM4 for now
-k = 1
+k = 2
 sim = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.004096','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.004096','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096']
 labels = ['P0','GM1','GM4','GM5','GM6','GM7']
 colors = sns.cubehelix_palette(8)
@@ -143,7 +143,7 @@ for t in range(len(ts)):
         COS = pd.read_csv('COShalo_obs.txt',header=0,delim_whitespace=True,comment='#',index_col=False)
         COS_ID = COS['ID']
         COS_OVI = COS['LogN0VI']
-        COS_Rkpc = COS['Rvir(kpc)'][COS_OVI != 0]
+        COS_Rkpc = COS['Rho(kpc)'][COS_OVI != 0]
         COS_OVI = COS_OVI[COS_OVI != 0]
         print(COS)
         plt.plot(COS_Rkpc[COS['RED?'] == 'yes'],COS_OVI[COS['RED?'] == 'yes'],marker='.',color='Red',linestyle=' ',label='COS Ellipticals')
@@ -153,9 +153,9 @@ for t in range(len(ts)):
     plt.plot(shell_bounds[0:len(CGM_Novi)],np.log10(CGM_Novi),marker='.',label=labels[k])
     plt.ylabel(r'N$_{OVI}$ [cm$^{-2}$]')
     plt.xlabel(r'$r$ [kpc]')
-    plt.ylim(12,17.5)
-    plt.xlim(-10,850)
-    plt.text(10,17.25,str(labels[k]))
+    plt.ylim(13,16)
+    plt.xlim(-10,270)
+    plt.text(-5,15.75,str(labels[k]))
     plt.legend()
     plt.savefig(labels[k]+'_NOVI_b_'+ts[t]+'.pdf')
     plt.show()
