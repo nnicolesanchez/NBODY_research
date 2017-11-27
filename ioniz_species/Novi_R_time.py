@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib as mpl
-from pathlib import Path
+import os.path
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -22,7 +22,7 @@ def N_OVI(f):
     return f.gas['rho'].in_units('g cm**-3')*ovi*f.gas['OxMassFrac']/(16*m_p)
 
 # Just using k = 1 and k = 2, for GM1 & GM4 for now
-k = 1
+k = 0
 sim = ['/nobackupp8/fgoverna/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096']
 labels = ['P0','GM1','GM4','GM5','GM6','GM7']
 colors = sns.cubehelix_palette(8)
@@ -31,10 +31,9 @@ print('LOADING SIM:',labels[k])
 
 ts = np.loadtxt('../'+labels[k]+'/timesteps.txt',dtype=str)
 for t in range(len(ts)):
-#    t = len(ts)-1
+    t = len(ts)-1
     print('Loading sim:',sim[k],' at timestep:',float(ts[t]))
-    my_file = Path(labels[k]+'_NOVI_b_'+ts[t]+'.pdf')
-    if my_file.exists():
+    if os.path.isfile(labels[k]+'_NOVI_b_'+ts[t]+'.pdf'): 
         continue
         print('This plot has already been made. Skipping this snapshot.x')
 
