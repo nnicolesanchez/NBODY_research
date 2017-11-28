@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-k = 1
+k = 2
 labels = ['P0','GM1','GM4','GM5','GM6','GM7']
 ts = np.loadtxt('../'+labels[k]+'/timesteps.txt',dtype=str)
 z = np.loadtxt('../'+labels[k]+'/steps_z_time.txt',delimiter=' ',dtype=str,usecols=2,unpack=True,skiprows=1)
@@ -13,8 +13,8 @@ print(labels[k])
 for t in range(len(ts)):
 #    t = len(ts)-1
     print(ts[t],z[t])
-    Novi = np.loadtxt('GM1_Novi_'+ts[t]+'_ydata.np')
-    R = np.loadtxt('GM1_b_'+ts[t]+'_xdata.np')
+    Novi = np.loadtxt(labels[k]+'_Novi_'+ts[t]+'_ydata.np')
+    R = np.loadtxt(labels[k]+'_b_'+ts[t]+'_xdata.np')
 
     if (float(ts[t]) >= 2816.):
         COS = pd.read_csv('COShalo_obs.txt',header=0,delim_whitespace=True,comment='#',index_col=False)
