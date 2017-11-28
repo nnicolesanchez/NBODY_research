@@ -1,3 +1,4 @@
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -15,13 +16,24 @@ for t in range(len(ts)):
     Novi = np.loadtxt('GM1_Novi_'+ts[t]+'_ydata.np')
     R = np.loadtxt('GM1_b_'+ts[t]+'_xdata.np')
 
+    if (float(ts[t]) >= 2816.):
+        COS = pd.read_csv('COShalo_obs.txt',header=0,delim_whitespace=True,comment='#',index_col=False)
+        COS_ID = COS['ID']
+        COS_OVI = COS['LogN0VI']
+        COS_Rkpc = COS['Rho(kpc)'][COS_OVI != 0]
+        COS_OVI = COS_OVI[COS_OVI != 0]
+#        print(COS)
+        plt.plot(COS_Rkpc[COS['RED?'] == 'yes'],COS_OVI[COS['RED?'] == 'yes'],marker='.',color='Red',linestyle=' ',label='COS Ellipticals')
+        plt.plot(COS_Rkpc[COS['RED?'] == 'no'],COS_OVI[COS['RED?'] == 'no'],marker='.',color='DodgerBlue',linestyle=' ',label='COS Spirals')
+
     plt.plot(R,np.log10(Novi),marker='.',label=labels[k])
     plt.ylabel(r'N$_{OVI}$ [cm$^{-2}$]')
     plt.xlabel(r'$r$ [kpc]')
     plt.ylim(13,16)
     plt.xlim(-10,270)
-    plt.text(230,15.50,z[t])
+    plt.title(z[t])
+    #plt.text(150,15.75,z[t])
     plt.legend()
     plt.savefig(labels[k]+'_NOVI_b_'+ts[t]+'.pdf')
-#    plt.show()
+    #plt.show()
     plt.clf()
