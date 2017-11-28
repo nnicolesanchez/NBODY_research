@@ -20,7 +20,7 @@ for t in range(len(ts)):
     plt.xlabel(r'$r$ [kpc]')
     plt.ylim(13,16)
     plt.xlim(-10,270)
-    plt.text(230,15.50,z[k])
+    plt.text(230,15.50,z[t])
     plt.legend()
     plt.savefig(labels[k]+'_NOVI_b_'+ts[t]+'.pdf')
 #    plt.show()
