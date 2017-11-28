@@ -24,3 +24,4 @@ for t in range(len(ts)):
     plt.legend()
     plt.savefig(labels[k]+'_NOVI_b_'+ts[t]+'.pdf')
 #    plt.show()
+    plt.clf()
