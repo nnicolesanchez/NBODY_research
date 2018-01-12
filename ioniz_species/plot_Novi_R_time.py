@@ -13,8 +13,8 @@ print(labels[k])
 for t in range(len(ts)):
 #    t = len(ts)-1
     print(ts[t],z[t])
-    Novi = np.loadtxt(labels[k]+'_ionizNovi_'+ts[t]+'_ydata.np')
-    R = np.loadtxt(labels[k]+'_ionizb_'+ts[t]+'_xdata.np')
+    Novi = np.loadtxt(labels[k]+'_collNovi_'+ts[t]+'_ydata.np')
+    R = np.loadtxt(labels[k]+'_collb_'+ts[t]+'_xdata.np')
 
     if (float(ts[t]) >= 2816.):
         COS = pd.read_csv('COShalo_obs.txt',header=0,delim_whitespace=True,comment='#',index_col=False)
@@ -27,13 +27,13 @@ for t in range(len(ts)):
         plt.plot(COS_Rkpc[COS['RED?'] == 'no'],COS_OVI[COS['RED?'] == 'no'],marker='.',color='DodgerBlue',linestyle=' ',label='COS Spirals')
 
     plt.plot(R,np.log10(Novi),marker='.',label=labels[k])
-    plt.ylabel(r'N$_{OVI}$ (photoionized) [cm$^{-2}$]')
+    plt.ylabel(r'N$_{OVI}$ (collisionally ionized) [cm$^{-2}$]')
     plt.xlabel(r'$r$ [kpc]')
     plt.ylim(13,16)
     plt.xlim(-10,270)
     plt.title(z[t])
     #plt.text(150,15.75,z[t])
     plt.legend()
-    plt.savefig(labels[k]+'_photoNOVI_b_'+ts[t]+'.pdf')
+    plt.savefig(labels[k]+'_collNOVI_b_'+ts[t]+'.pdf')
     #plt.show()
     plt.clf()
