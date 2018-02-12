@@ -91,3 +91,8 @@ plt.legend()
 plt.savefig('Novi_profile_'+labels[k]+'.pdf')
 plt.show()
 
+
+plt.plot(profile['rbins'],np.log10(profile['temp']))
+plt.ylabel('Temp [K]')
+plt.xlabel('R (kpc)')
+plt.show()
