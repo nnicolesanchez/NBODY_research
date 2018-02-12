@@ -15,7 +15,7 @@ def N_OVI(f):
     return f.gas['rho'].in_units('g cm**-3')*ovi*f.gas['OxMassFrac']/(16*m_p)
 
 # Just using k = 1 and k = 2, for GM1 & GM4 for now
-k = 2
+k = 1
 ## MOVED FILES FROM FABIO TO ALYSON BROOKS: /nobackupp8/ambrook2/fgoverna_pleiades_p8_files
 sim = ['/nobackupp8/ambrook2/fgoverna_pleiades_p8_files/pioneer50h243.1536g1bwK1BH/pioneer50h243.1536gst1bwK1BH.00','/nobackupp8/ambrook2/fgoverna_pleiades_p8_files/pioneer50h243GM1.1536gs1bwK1BH/pioneer50h243GM1.1536gst1bwK1BH.00','/nobackupp8/ambrook2/fgoverna_pleiades_p8_files/pioneer50h243GM4.1536gst1bwK1BH/pioneer50h243GM4.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM5.1536gst1bwK1BH/pioneer50h243GM5.1536gst1bwK1BH.00','/nobackupp8/fgoverna/pioneer50h243GM6.1536gst1bwK1BH/pioneer50h243GM6.1536gst1bwK1BH.00','/nobackup/nnsanche/pioneer50h243GM7.1536gst1bwK1BH/pioneer50h243GM7.1536gst1bwK1BH.004096']
 labels = ['P0','GM1','GM4','GM5','GM6','GM7']
@@ -58,23 +58,36 @@ CGM_temp = np.array(CGM_gas['temp'])
 CGM_gas['ovi'] = pynbody.analysis.ionfrac.calculate(CGM_gas,ion='ovi',mode='new') 
 m_p = 1.6726 * 10**-24 #g
 
-CGM_gas['OVI'] = CGM_gas['rho'].in_units('g cm**-2')*CGM_gas['ovi']*CGM_gas['OxMassFrac']/(16*m_p)
 print('Total mass in CGM:', np.sum(CGM_gas['mass']))
 #print('Total mass in metals:',np.sum(CGM_gas['mass']*CGM_gas['metals'])) # 'metals' *IS* metallicity
 #print('Total mass Oxygen in CGM:', np.sum(CGM_gas['OxMassFrac']*CGM_gas['mass']),CGM_gas['mass'].units)
 #print('Total mass in OVI in CGM:', np.sum(CGM_gas['OxMassFrac']*CGM_gas['mass']*CGM_gas['ovi']))
 #print('OVI fractions:',np.average(CGM_gas['ovi']))
 
-profile = profile.Profile(CGM_gas,min='0.1 kpc',max='250 kpc',ndim=3)
-print(profile['rbins'],len(profile['rbins']),profile['rho'],len(profile['rho']))
 
+COS = pd.read_csv('COShalo_obs.txt',header=0,delim_whitespace=True,comment='#',index_col=False)
+COS_ID = COS['ID']
+COS_OVI = COS['LogN0VI']
+COS_Rkpc = COS['Rho(kpc)'][COS_OVI != 0]
+COS_OVI = COS_OVI[COS_OVI != 0]
+#        print(COS)
+plt.plot(COS_Rkpc[COS['RED?'] == 'yes'],COS_OVI[COS['RED?'] == 'yes'],marker='.',color='Red',linestyle=' ',label='COS Ellipticals')
+plt.plot(COS_Rkpc[COS['RED?'] == 'no'],COS_OVI[COS['RED?'] == 'no'],marker='.',color='DodgerBlue',linestyle=' ',label='COS Spirals')
 
-print(CGM_gas['OVI'].units,pynbody.units.Unit('g cm**-2'))
+profile = profile.Profile(CGM_gas,min='0.1 kpc',max='250 kpc')
 
-#profile['OVI'] = profile['rho'].in_units('g cm**-2')
-plt.plot(profile['rbins'].in_units('kpc'),profile['OVI'],'r-')
-plt.savefig('Novi_profile.pdf')
-plt.ylabel(r'OVI Density Profile (g cm$^{-3}$)')
+#print('Bins',profile['bins'])
+#print('RBins',profile['dr'])
+#print(profile['mass'].units)
+#plt.plot(profile['rbins'].in_units('kpc'),(profile['mass'].in_units('g cm**-3')*profile['OxMassFrac']*profile['ovi']/(16*m_p))/profile.bins,'r-')
+#plt.plot(profile['rbins'].in_units('kpc'),(profile['rho'].in_units('g cm**-3')*profile['rbins'].in_units('cm'),'r-'))
+plt.plot(profile['rbins'].in_units('kpc'),np.log10((profile['mass'].in_units('g')*profile['OxMassFrac']*profile['ovi']/(16*m_p))/profile._binsize.in_units('cm**2')),label=labels[k])
+plt.title('z = 0.00')
+plt.ylabel(r'N$_{OVI}$ (cm$^{-2}$)')
 plt.xlabel('R (kpc)')
+plt.ylim(13,16)
+plt.xlim(-10,260)
+plt.legend()
+plt.savefig('Novi_profile_'+labels[k]+'.pdf')
 plt.show()
 
