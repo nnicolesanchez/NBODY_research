@@ -11,7 +11,7 @@ import numpy as np
 #k=3
 labels = ['P0','GM1','GM4','GM5','GM6']
 
-for k in range(1,len(labels)):
+for k in range(len(labels)):
     N_ovi_50kpc_thru_time = np.loadtxt(labels[k]+'_Novi50kpcvstime.np')
     times = np.loadtxt(labels[k]+'_times.np')
 

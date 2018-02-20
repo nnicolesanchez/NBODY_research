@@ -102,7 +102,7 @@ plt.savefig(labels[k]+'_NOVI_b.pdf')
 plt.show()
 
 
-quit()
+#quit()
 ##########################################
 # PLOT COLUMN DENSITY AS FUNCTION OF X,Y #
 ##########################################
